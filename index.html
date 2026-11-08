@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIST | Admin Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --navy:#10233f;
+ --blue:#2563eb;
+ --cyan:#06b6d4;
+ --bg:#f4f7fb;
+ --card:#ffffff;
+ --text:#1e293b;
+ --muted:#8492a6;
+ --border:#e8edf4;
+}
+
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+body{
+ font-family:Inter,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ transition:.3s;
+}
+
+body.dark{
+ --bg:#0c1424;
+ --card:#172338;
+ --text:#e5edf8;
+ --muted:#9aabc2;
+ --border:#293950;
+}
+
+button,input,select{
+ font:inherit;
+}
+
+button{
+ cursor:pointer;
+ border:0;
+}
+
+.app{
+ display:flex;
+ min-height:100vh;
+}
+
+
+
+.sidebar{
+ width:260px;
+ background:var(--navy);
+ color:white;
+ position:fixed;
+ height:100vh;
+ overflow-y:auto;
+ padding:22px 16px;
+ z-index:20;
+ transition:.3s;
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:0 8px 24px;
+ border-bottom:1px solid #ffffff20;
+}
+
+.brand img{
+ width:55px;
+ height:55px;
+ object-fit:contain;
+ background:white;
+ border-radius:12px;
+ padding:4px;
+ flex-shrink:0;
+}
+
+.brand h2{
+ font-size:12px;
+ line-height:1.6;
+}
+
+.brand p{
+ font-size:9px;
+ color:#06b6d4;
+ margin-top:5px;
+ letter-spacing:.5px;
+}
+
+.menu-label{
+ font-size:10px;
+ color:#8ba3c0;
+ padding:25px 12px 10px;
+ letter-spacing:1.4px;
+ font-weight:700;
+}
+
+.nav-link{
+ width:100%;
+ display:flex;
+ align-items:center;
+ gap:13px;
+ padding:12px;
+ color:#bdcde0;
+ background:transparent;
+ border-radius:9px;
+ text-align:left;
+ font-size:12px;
+ margin-bottom:5px;
+ transition:.2s;
+}
+
+.nav-link:hover,
+.nav-link.active{
+ color:white;
+ background:#ffffff18;
+}
+
+.nav-link.active{
+ border-left:3px solid var(--cyan);
+}
+
+.nav-icon{
+ font-size:17px;
+ width:22px;
+ text-align:center;
+}
+
+.nav-count{
+ margin-left:auto;
+ background:var(--blue);
+ padding:3px 7px;
+ border-radius:10px;
+}
+
+.sidebar-bottom{
+ margin-top:30px;
+ padding:15px;
+ background:#ffffff10;
+ border-radius:12px;
+}
+
+.sidebar-bottom h4{
+ font-size:12px;
+ margin-bottom:8px;
+}
+
+.sidebar-bottom p{
+ font-size:10px;
+ color:#a9bfd9;
+ line-height:1.8;
+}
+
+.sidebar-bottom span{
+ color:var(--cyan);
+}
+
+
+.main{
+ margin-left:260px;
+ width:calc(100% - 260px);
+ min-width:0;
+}
+
+
+.topbar{
+ height:76px;
+ background:var(--card);
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 30px;
+ position:sticky;
+ top:0;
+ z-index:10;
+}
+
+.top-left{
+ display:flex;
+ align-items:center;
+ gap:14px;
+}
+
+.top-left h3{
+ font-size:16px;
+}
+
+.top-left p{
+ font-size:10px;
+ color:var(--muted);
+ margin-top:5px;
+}
+
+.top-actions{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+
+.icon-btn{
+ width:38px;
+ height:38px;
+ background:var(--bg);
+ color:var(--text);
+ border-radius:10px;
+ font-size:17px;
+ position:relative;
+}
+
+.dot{
+ position:absolute;
+ width:7px;
+ height:7px;
+ background:#ef4444;
+ border-radius:50%;
+ top:7px;
+ right:7px;
+}
+
+.profile{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
+.avatar{
+ width:38px;
+ height:38px;
+ background:#dbeafe;
+ color:#1d4ed8;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ font-weight:700;
+ font-size:12px;
+}
+
+.profile h4{
+ font-size:11px;
+}
+
+.profile p{
+ font-size:9px;
+ color:var(--muted);
+ margin-top:4px;
+}
+
+.menu-toggle{
+ display:none;
+}
+
+
+.content{
+ padding:30px;
+ max-width:1600px;
+ margin:auto;
+}
+
+.welcome{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ margin-bottom:25px;
+}
+
+.welcome h1{
+ font-size:23px;
+ font-weight:800;
+}
+
+.welcome p{
+ color:var(--muted);
+ font-size:12px;
+ margin-top:8px;
+}
+
+.primary-btn{
+ background:var(--blue);
+ color:white;
+ padding:11px 17px;
+ border-radius:8px;
+ font-size:11px;
+ font-weight:600;
+ transition:.2s;
+}
+
+.primary-btn:hover{
+ background:#174ac1;
+ transform:translateY(-2px);
+}
+
+.secondary-btn{
+ background:var(--bg);
+ color:var(--text);
+ padding:10px 15px;
+ border-radius:8px;
+ font-size:11px;
+ border:1px solid var(--border);
+}
+
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:17px;
+ margin-bottom:22px;
+}
+
+.stat-card{
+ background:var(--card);
+ padding:21px;
+ border:1px solid var(--border);
+ border-radius:13px;
+ box-shadow:0 5px 25px rgba(24,44,78,.05);
+ transition:.25s;
+ animation:fadeUp .6s ease both;
+}
+
+.stat-card:hover{
+ transform:translateY(-4px);
+}
+
+.stat-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.stat-icon{
+ width:43px;
+ height:43px;
+ border-radius:11px;
+ display:grid;
+ place-items:center;
+ font-size:20px;
+}
+
+.blue{
+ background:#dbeafe;
+ color:#2563eb;
+}
+
+.cyan{
+ background:#cffafe;
+ color:#0891b2;
+}
+
+.purple{
+ background:#ede9fe;
+ color:#7c3aed;
+}
+
+.orange{
+ background:#ffedd5;
+ color:#ea580c;
+}
+
+.stat-card h2{
+ font-size:25px;
+ margin-top:18px;
+}
+
+.stat-card p{
+ font-size:11px;
+ color:var(--muted);
+ margin-top:6px;
+}
+
+.growth{
+ font-size:10px;
+ color:#16a34a;
+ font-weight:700;
+}
+
+
+.grid-two{
+ display:grid;
+ grid-template-columns:1.6fr 1fr;
+ gap:18px;
+ margin-bottom:20px;
+}
+
+.grid-three{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:18px;
+}
+
+.panel{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:13px;
+ padding:21px;
+ box-shadow:0 5px 25px rgba(24,44,78,.04);
+ min-width:0;
+}
+
+.panel-header{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ margin-bottom:20px;
+}
+
+.panel-header h3{
+ font-size:13px;
+}
+
+.panel-header p{
+ font-size:9px;
+ color:var(--muted);
+ margin-top:5px;
+}
+
+
+.chart{
+ height:190px;
+ display:flex;
+ align-items:flex-end;
+ justify-content:space-around;
+ gap:12px;
+ padding:15px 5px 0;
+ border-bottom:1px solid var(--border);
+}
+
+.bar-group{
+ display:flex;
+ align-items:flex-end;
+ gap:5px;
+ height:100%;
+ width:35px;
+}
+
+.bar{
+ width:13px;
+ background:var(--blue);
+ border-radius:5px 5px 0 0;
+ transition:.3s;
+}
+
+.bar.secondary{
+ background:#cbd5e1;
+}
+
+.chart-labels{
+ display:flex;
+ justify-content:space-around;
+ margin-top:10px;
+ color:var(--muted);
+ font-size:9px;
+}
+
+.legend{
+ display:flex;
+ gap:18px;
+ margin-top:15px;
+ font-size:9px;
+ color:var(--muted);
+}
+
+.legend span{
+ display:flex;
+ align-items:center;
+ gap:6px;
+}
+
+.legend i{
+ width:8px;
+ height:8px;
+ background:var(--blue);
+ border-radius:2px;
+}
+
+.legend i.light{
+ background:#cbd5e1;
+}
+
+
+.progress-item{
+ margin-bottom:17px;
+}
+
+.progress-info{
+ display:flex;
+ justify-content:space-between;
+ font-size:10px;
+ margin-bottom:8px;
+}
+
+.progress-track{
+ height:7px;
+ background:var(--bg);
+ border-radius:10px;
+ overflow:hidden;
+}
+
+.progress-fill{
+ height:100%;
+ border-radius:10px;
+}
+
+
+
+.table-wrap{
+ overflow-x:auto;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ white-space:nowrap;
+}
+
+th{
+ text-align:left;
+ font-size:9px;
+ color:var(--muted);
+ padding:12px 10px;
+ border-bottom:1px solid var(--border);
+}
+
+td{
+ padding:13px 10px;
+ font-size:10px;
+ border-bottom:1px solid var(--border);
+}
+
+.user-cell{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
+.user-avatar{
+ width:32px;
+ height:32px;
+ border-radius:50%;
+ background:#dbeafe;
+ color:#2563eb;
+ display:grid;
+ place-items:center;
+ font-weight:700;
+}
+
+.user-cell strong{
+ display:block;
+ font-size:10px;
+}
+
+.user-cell small{
+ display:block;
+ color:var(--muted);
+ margin-top:4px;
+ font-size:9px;
+}
+
+.status{
+ padding:5px 9px;
+ border-radius:20px;
+ font-size:9px;
+ font-weight:600;
+}
+
+.status.active{
+ background:#dcfce7;
+ color:#15803d;
+}
+
+.status.pending{
+ background:#fef3c7;
+ color:#b45309;
+}
+
+.status.completed{
+ background:#dbeafe;
+ color:#1d4ed8;
+}
+
+.search-box{
+ min-width:220px;
+ padding:10px 12px;
+ background:var(--bg);
+ border:1px solid var(--border);
+ border-radius:8px;
+ color:var(--text);
+ outline:none;
+ font-size:10px;
+}
+
+.table-filter{
+ padding:9px 11px;
+ border:1px solid var(--border);
+ border-radius:8px;
+ background:var(--bg);
+ color:var(--text);
+ font-size:10px;
+}
+
+.action-btn{
+ background:transparent;
+ color:var(--blue);
+ font-size:15px;
+ margin-right:9px;
+}
+
+.delete-btn{
+ color:#ef4444;
+}
+
+.empty{
+ text-align:center;
+ padding:25px;
+ color:var(--muted);
+}
+
+
+
+.activity{
+ display:flex;
+ gap:11px;
+ margin-bottom:18px;
+}
+
+.activity-icon{
+ min-width:34px;
+ height:34px;
+ border-radius:10px;
+ display:grid;
+ place-items:center;
+ background:#dbeafe;
+ color:#2563eb;
+}
+
+.activity strong{
+ font-size:10px;
+}
+
+.activity p{
+ font-size:9px;
+ color:var(--muted);
+ margin-top:5px;
+}
+
+
+
+.course{
+ display:flex;
+ gap:12px;
+ margin-bottom:16px;
+ align-items:center;
+}
+
+.course-icon{
+ width:42px;
+ height:42px;
+ background:#ede9fe;
+ color:#7c3aed;
+ display:grid;
+ place-items:center;
+ border-radius:10px;
+ font-size:19px;
+ flex-shrink:0;
+}
+
+.course h4{
+ font-size:11px;
+}
+
+.course p{
+ font-size:9px;
+ color:var(--muted);
+ margin-top:5px;
+}
+
+
+.team-card{
+ text-align:left;
+ transition:.25s;
+}
+
+.team-card:hover{
+ transform:translateY(-5px);
+}
+
+.team-avatar{
+ width:65px;
+ height:65px;
+ display:grid;
+ place-items:center;
+ border-radius:17px;
+ font-size:25px;
+ margin-bottom:18px;
+}
+
+.team-card h3{
+ font-size:14px;
+ margin-bottom:9px;
+ line-height:1.5;
+}
+
+.team-role{
+ color:var(--blue);
+ font-size:10px;
+ font-weight:700;
+ line-height:1.7;
+}
+
+.team-card p{
+ color:var(--muted);
+ font-size:10px;
+ margin-top:13px;
+ line-height:1.8;
+}
+
+.team-tag{
+ display:inline-block;
+ margin-top:15px;
+ padding:6px 10px;
+ background:var(--bg);
+ border-radius:6px;
+ font-size:9px;
+ color:var(--muted);
+}
+
+
+.page-section{
+ display:none;
+ animation:fadeUp .3s;
+}
+
+.page-section.active{
+ display:block;
+}
+
+.simple-page{
+ background:var(--card);
+ border:1px solid var(--border);
+ padding:35px;
+ border-radius:14px;
+ margin-top:20px;
+}
+
+.simple-page h2{
+ font-size:20px;
+ margin-bottom:12px;
+}
+
+.simple-page p{
+ font-size:12px;
+ color:var(--muted);
+ line-height:1.8;
+}
+
+
+.modal{
+ position:fixed;
+ inset:0;
+ background:#071529a8;
+ z-index:50;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
+}
+
+.modal.show{
+ display:flex;
+}
+
+.modal-box{
+ background:var(--card);
+ color:var(--text);
+ padding:26px;
+ border-radius:15px;
+ width:100%;
+ max-width:440px;
+ animation:fadeUp .3s;
+}
+
+.modal-head{
+ display:flex;
+ justify-content:space-between;
+ margin-bottom:22px;
+}
+
+.modal-head h3{
+ font-size:17px;
+}
+
+.close{
+ background:transparent;
+ color:var(--muted);
+ font-size:22px;
+}
+
+.form-group{
+ margin-bottom:16px;
+}
+
+.form-group label{
+ display:block;
+ font-size:10px;
+ font-weight:700;
+ margin-bottom:8px;
+}
+
+.form-group input,
+.form-group select{
+ width:100%;
+ padding:12px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ border-radius:8px;
+ outline:none;
+ font-size:11px;
+}
+
+.form-submit{
+ width:100%;
+ margin-top:5px;
+}
+
+
+.toast{
+ position:fixed;
+ bottom:25px;
+ right:25px;
+ background:#10233f;
+ color:white;
+ padding:13px 18px;
+ border-radius:9px;
+ font-size:11px;
+ box-shadow:0 8px 25px #0002;
+ z-index:100;
+ opacity:0;
+ transform:translateY(15px);
+ pointer-events:none;
+ transition:.3s;
+}
+
+.toast.show{
+ transform:translateY(0);
+ opacity:1;
+}
+
+
+
+.footer{
+ text-align:center;
+ padding:25px 10px;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.8;
+}
+
+
+
+@keyframes fadeUp{
+ from{
+  opacity:0;
+  transform:translateY(15px);
+ }
+ to{
+  opacity:1;
+  transform:translateY(0);
+ }
+}
+
+
+
+@media(max-width:1100px){
+ .stats{
+  grid-template-columns:repeat(2,1fr);
+ }
+ .grid-three{
+  grid-template-columns:repeat(2,1fr);
+ }
+}
+
+@media(max-width:800px){
+ .sidebar{
+  transform:translateX(-100%);
+ }
+ .sidebar.open{
+  transform:translateX(0);
+ }
+ .main{
+  margin-left:0;
+  width:100%;
+ }
+ .menu-toggle{
+  display:block;
+ }
+ .topbar{
+  padding:0 17px;
+ }
+ .content{
+  padding:20px 16px;
+ }
+ .grid-two{
+  grid-template-columns:1fr;
+ }
+}
+
+@media(max-width:600px){
+ .stats,
+ .grid-three{
+  grid-template-columns:1fr;
+ }
+ .welcome{
+  align-items:flex-start;
+  flex-direction:column;
+ }
+ .top-actions{
+  gap:7px;
+ }
+ .profile div:last-child{
+  display:none;
+ }
+ .top-left h3{
+  font-size:13px;
+ }
+ .search-box{
+  min-width:100%;
+ }
+ .panel{
+  padding:16px;
+ }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+ <div class="brand">
+  <img src="gist.png" alt="GIST Logo">
+  <div>
+   <h2>GIST INTERNSHIP PROGRAM</h2>
+   <p>ADMINISTRATION PORTAL</p>
+  </div>
+ </div>
+
+ <div class="menu-label">MAIN MENU</div>
+
+ <button class="nav-link active" data-page="dashboard">
+  <span class="nav-icon">▦</span>
+  Dashboard
+ </button>
+
+ <button class="nav-link" data-page="students">
+  <span class="nav-icon">👥</span>
+  Students
+  <span class="nav-count">120</span>
+ </button>
+
+ <button class="nav-link" data-page="internships">
+  <span class="nav-icon">💼</span>
+  Internships
+ </button>
+
+ <button class="nav-link" data-page="courses">
+  <span class="nav-icon">📚</span>
+  Courses
+ </button>
+
+ <button class="nav-link" data-page="instructors">
+  <span class="nav-icon">👨‍🏫</span>
+  Instructors
+ </button>
+
+ <div class="menu-label">WORK MANAGEMENT</div>
+
+ <button class="nav-link" data-page="tasks">
+  <span class="nav-icon">✓</span>
+  Tasks
+ </button>
+
+ <button class="nav-link" data-page="submissions">
+  <span class="nav-icon">📥</span>
+  Submissions
+ </button>
+
+ <button class="nav-link" data-page="certificates">
+  <span class="nav-icon">🏆</span>
+  Certificates
+ </button>
+
+ <button class="nav-link" data-page="reports">
+  <span class="nav-icon">📊</span>
+  Reports
+ </button>
+
+ <div class="menu-label">SYSTEM</div>
+
+ <button class="nav-link" data-page="settings">
+  <span class="nav-icon">⚙</span>
+  Settings
+ </button>
+
+ <div class="sidebar-bottom">
+  <h4>GIST Internship Program</h4>
+  <p>
+   Empowering students through practical learning,
+   professional development and technology.
+  </p>
+  <p><span>●</span> System Online</p>
+ </div>
+
+</aside>
+
+<main class="main">
+
+ <header class="topbar">
+
+  <div class="top-left">
+   <button class="icon-btn menu-toggle" id="menuToggle">☰</button>
+   <div>
+    <h3 id="pageTitle">Dashboard Overview</h3>
+    <p>GIST Admin Portal / <span id="breadcrumb">Dashboard</span></p>
+   </div>
+  </div>
+
+  <div class="top-actions">
+
+   <button class="icon-btn" id="themeToggle" title="Toggle Theme">☾</button>
+
+   <button class="icon-btn" id="notificationBtn">
+    ♧
+    <span class="dot"></span>
+   </button>
+
+   <div class="profile">
+    <div class="avatar">AD</div>
+    <div>
+     <h4>Administrator</h4>
+     <p>GIST Management</p>
+    </div>
+   </div>
+
+  </div>
+
+ </header>
+
+ <div class="content">
+
+
+ <section class="page-section active" id="dashboard">
+
+  <div class="welcome">
+   <div>
+    <h1>Welcome Back, Administrator 👋</h1>
+    <p>Here is what's happening in your internship program today.</p>
+   </div>
+   <button class="primary-btn" onclick="notify('Welcome to GIST Admin Dashboard!')">
+    + Quick Action
+   </button>
+  </div>
+
+  <div class="stats">
+
+   <div class="stat-card">
+    <div class="stat-top">
+     <div class="stat-icon blue">👥</div>
+     <span class="growth">↑ 12.5%</span>
+    </div>
+    <h2 id="totalStudents">120</h2>
+    <p>Total Registered Students</p>
+   </div>
+
+   <div class="stat-card">
+    <div class="stat-top">
+     <div class="stat-icon cyan">💼</div>
+     <span class="growth">↑ 8.2%</span>
+    </div>
+    <h2>15</h2>
+    <p>Active Internship Domains</p>
+   </div>
+
+   <div class="stat-card">
+    <div class="stat-top">
+     <div class="stat-icon purple">📚</div>
+     <span class="growth">↑ 5.4%</span>
+    </div>
+    <h2>24</h2>
+    <p>Available Learning Courses</p>
+   </div>
+
+   <div class="stat-card">
+    <div class="stat-top">
+     <div class="stat-icon orange">📥</div>
+     <span class="growth">↑ 15.3%</span>
+    </div>
+    <h2>86</h2>
+    <p>Task Submissions</p>
+   </div>
+
+  </div>
+
+  <div class="grid-two">
+
+   <div class="panel">
+
+    <div class="panel-header">
+     <div>
+      <h3>Internship Activity</h3>
+      <p>Monthly student activity overview</p>
+     </div>
+     <select class="table-filter" id="chartFilter">
+      <option value="2026">2026</option>
+      <option value="2025">2025</option>
+     </select>
+    </div>
+
+    <div class="chart">
+
+     <div class="bar-group">
+      <div class="bar" style="height:45%"></div>
+      <div class="bar secondary" style="height:30%"></div>
+     </div>
+
+     <div class="bar-group">
+      <div class="bar" style="height:65%"></div>
+      <div class="bar secondary" style="height:42%"></div>
+     </div>
+
+     <div class="bar-group">
+      <div class="bar" style="height:55%"></div>
+      <div class="bar secondary" style="height:35%"></div>
+     </div>
+
+     <div class="bar-group">
+      <div class="bar" style="height:85%"></div>
+      <div class="bar secondary" style="height:55%"></div>
+     </div>
+
+     <div class="bar-group">
+      <div class="bar" style="height:70%"></div>
+      <div class="bar secondary" style="height:48%"></div>
+     </div>
+
+     <div class="bar-group">
+      <div class="bar" style="height:95%"></div>
+      <div class="bar secondary" style="height:65%"></div>
+     </div>
+
+    </div>
+
+    <div class="chart-labels">
+     <span>Jan</span>
+     <span>Feb</span>
+     <span>Mar</span>
+     <span>Apr</span>
+     <span>May</span>
+     <span>Jun</span>
+    </div>
+
+    <div class="legend">
+     <span><i></i> Students</span>
+     <span><i class="light"></i> Submissions</span>
+    </div>
+
+   </div>
+
+   <div class="panel">
+
+    <div class="panel-header">
+     <div>
+      <h3>Internship Domains</h3>
+      <p>Student distribution by domain</p>
+     </div>
+    </div>
+
+    <div class="progress-item">
+     <div class="progress-info">
+      <span>Web Development</span>
+      <strong>85%</strong>
+     </div>
+     <div class="progress-track">
+      <div class="progress-fill" style="width:85%;background:#2563eb"></div>
+     </div>
+    </div>
+
+    <div class="progress-item">
+     <div class="progress-info">
+      <span>Artificial Intelligence</span>
+      <strong>72%</strong>
+     </div>
+     <div class="progress-track">
+      <div class="progress-fill" style="width:72%;background:#7c3aed"></div>
+     </div>
+    </div>
+
+    <div class="progress-item">
+     <div class="progress-info">
+      <span>Machine Learning</span>
+      <strong>65%</strong>
+     </div>
+     <div class="progress-track">
+      <div class="progress-fill" style="width:65%;background:#0891b2"></div>
+     </div>
+    </div>
+
+    <div class="progress-item">
+     <div class="progress-info">
+      <span>Data Science</span>
+      <strong>58%</strong>
+     </div>
+     <div class="progress-track">
+      <div class="progress-fill" style="width:58%;background:#ea580c"></div>
+     </div>
+    </div>
+
+    <div class="progress-item">
+     <div class="progress-info">
+      <span>Graphic Design</span>
+      <strong>45%</strong>
+     </div>
+     <div class="progress-track">
+      <div class="progress-fill" style="width:45%;background:#16a34a"></div>
+     </div>
+    </div>
+
+   </div>
+
+  </div>
+
+  <div class="grid-two">
+
+   <div class="panel">
+
+    <div class="panel-header">
+     <div>
+      <h3>Recent Students</h3>
+      <p>Recently registered internship students</p>
+     </div>
+     <button class="secondary-btn" onclick="showPage('students')">View All</button>
+    </div>
+
+    <div class="table-wrap">
+     <table>
+      <thead>
+       <tr>
+        <th>STUDENT</th>
+        <th>DOMAIN</th>
+        <th>STATUS</th>
+       </tr>
+      </thead>
+      <tbody id="recentStudents">
+
+       <tr>
+        <td>
+         <div class="user-cell">
+          <div class="user-avatar">MA</div>
+          <div>
+           <strong>Muhammad Ali</strong>
+           <small>ali@example.com</small>
+          </div>
+         </div>
+        </td>
+        <td>Web Development</td>
+        <td><span class="status active">Active</span></td>
+       </tr>
+
+       <tr>
+        <td>
+         <div class="user-cell">
+          <div class="user-avatar">FA</div>
+          <div>
+           <strong>Fatima Ahmed</strong>
+           <small>fatima@example.com</small>
+          </div>
+         </div>
+        </td>
+        <td>AI & ML</td>
+        <td><span class="status pending">Pending</span></td>
+       </tr>
+
+       <tr>
+        <td>
+         <div class="user-cell">
+          <div class="user-avatar">SA</div>
+          <div>
+           <strong>Sara Ahmed</strong>
+           <small>sara@example.com</small>
+          </div>
+         </div>
+        </td>
+        <td>Graphic Design</td>
+        <td><span class="status completed">Completed</span></td>
+       </tr>
+
+      </tbody>
+     </table>
+    </div>
+
+   </div>
+
+   <div class="panel">
+
+    <div class="panel-header">
+     <div>
+      <h3>Recent Activities</h3>
+      <p>Latest program updates</p>
+     </div>
+    </div>
+
+    <div class="activity">
+     <div class="activity-icon">👤</div>
+     <div>
+      <strong>New Student Registered</strong>
+      <p>A new student joined the internship program.</p>
+     </div>
+    </div>
+
+    <div class="activity">
+     <div class="activity-icon">📥</div>
+     <div>
+      <strong>Task Submitted</strong>
+      <p>A student submitted an assigned task.</p>
+     </div>
+    </div>
+
+    <div class="activity">
+     <div class="activity-icon">🏆</div>
+     <div>
+      <strong>Certificate Prepared</strong>
+      <p>A student certificate is ready for review.</p>
+     </div>
+    </div>
+
+    <div class="activity">
+     <div class="activity-icon">📚</div>
+     <div>
+      <strong>New Learning Domain</strong>
+      <p>Machine Learning domain added to the program.</p>
+     </div>
+    </div>
+
+   </div>
+
+  </div>
+
+ </section>
+
+
+
+ <section class="page-section" id="students">
+
+  <div class="welcome">
+   <div>
+    <h1>Student Management</h1>
+    <p>Manage registered students and their internship information.</p>
+   </div>
+
+   <button class="primary-btn" onclick="openModal('studentModal')">
+    + Add Student
+   </button>
+  </div>
+
+  <div class="stats">
+
+   <div class="stat-card">
+    <div class="stat-icon blue">👥</div>
+    <h2 id="studentCount">120</h2>
+    <p>Total Students</p>
+   </div>
+
+   <div class="stat-card">
+    <div class="stat-icon cyan">✓</div>
+    <h2>85</h2>
+    <p>Active Students</p>
+   </div>
+
+   <div class="stat-card">
+    <div class="stat-icon purple">⏳</div>
+    <h2>20</h2>
+    <p>Pending Students</p>
+   </div>
+
+   <div class="stat-card">
+    <div class="stat-icon orange">🏆</div>
+    <h2>15</h2>
+    <p>Completed Students</p>
+   </div>
+
+  </div>
+
+  <div class="panel">
+
+   <div class="panel-header">
+    <div>
+     <h3>All Registered Students</h3>
+     <p>Student records and internship status</p>
+    </div>
+   </div>
+
+   <div class="row" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+
+    <input
+     type="search"
+     id="studentSearch"
+     class="search-box"
+     placeholder="Search student by name or email..."
+    >
+
+    <select class="table-filter" id="studentFilter">
+     <option value="all">All Status</option>
+     <option value="Active">Active</option>
+     <option value="Pending">Pending</option>
+     <option value="Completed">Completed</option>
+    </select>
+
+   </div>
+
+   <div class="table-wrap">
+
+    <table>
+     <thead>
+      <tr>
+       <th>STUDENT</th>
+       <th>DOMAIN</th>
+       <th>EMAIL</th>
+       <th>STATUS</th>
+       <th>ACTION</th>
+      </tr>
+     </thead>
+
+     <tbody id="studentsTable">
+
+      <tr>
+       <td>
+        <div class="user-cell">
+         <div class="user-avatar">MA</div>
+         <div>
+          <strong>Muhammad Ali</strong>
+          <small>GIST-001</small>
+         </div>
+        </div>
+       </td>
+       <td>Web Development</td>
+       <td>ali@example.com</td>
+       <td><span class="status active">Active</span></td>
+       <td><button class="action-btn" onclick="notify('Student record selected')">👁</button></td>
+      </tr>
+
+      <tr>
+       <td>
+        <div class="user-cell">
+         <div class="user-avatar">FA</div>
+         <div>
+          <strong>Fatima Ahmed</strong>
+          <small>GIST-002</small>
+         </div>
+        </div>
+       </td>
+       <td>Artificial Intelligence</td>
+       <td>fatima@example.com</td>
+       <td><span class="status pending">Pending</span></td>
+       <td><button class="action-btn" onclick="notify('Student record selected')">👁</button></td>
+      </tr>
+
+      <tr>
+       <td>
+        <div class="user-cell">
+         <div class="user-avatar">SA</div>
+         <div>
+          <strong>Sara Ahmed</strong>
+          <small>GIST-003</small>
+         </div>
+        </div>
+       </td>
+       <td>Graphic Design</td>
+       <td>sara@example.com</td>
+       <td><span class="status completed">Completed</span></td>
+       <td><button class="action-btn" onclick="notify('Student record selected')">👁</button></td>
+      </tr>
+
+     </tbody>
+    </table>
+
+   </div>
+
+  </div>
+
+ </section>
+
+
+<section class="page-section" id="internships">
+
+ <div class="welcome">
+  <div>
+   <h1>Internship Programs</h1>
+   <p>Manage all available internship domains and programs.</p>
+  </div>
+  <button class="primary-btn" onclick="notify('Internship management selected')">
+   + Add Internship
+  </button>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card">
+   <div class="stat-icon blue">💼</div>
+   <h2>15</h2>
+   <p>Total Internship Domains</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon cyan">👥</div>
+   <h2>120</h2>
+   <p>Enrolled Interns</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon purple">✓</div>
+   <h2>85</h2>
+   <p>Active Interns</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon orange">🏆</div>
+   <h2>35</h2>
+   <p>Completed Internships</p>
+  </div>
+ </div>
+
+ <div class="grid-three">
+
+  <div class="panel">
+   <div class="stat-icon blue">💻</div>
+   <h3 style="font-size:14px;margin-top:17px">Web Development</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Frontend, Backend, Full Stack Development and modern web technologies.
+   </p>
+   <span class="team-tag">Development</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon purple">🤖</div>
+   <h3 style="font-size:14px;margin-top:17px">Artificial Intelligence</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    AI applications, intelligent systems, automation and AI-powered solutions.
+   </p>
+   <span class="team-tag">Artificial Intelligence</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon cyan">🧠</div>
+   <h3 style="font-size:14px;margin-top:17px">Machine Learning</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Machine learning models, predictive analytics and model development.
+   </p>
+   <span class="team-tag">Machine Learning</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon orange">📊</div>
+   <h3 style="font-size:14px;margin-top:17px">Data Science</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Data analysis, visualization, statistics and data-driven insights.
+   </p>
+   <span class="team-tag">Data Science</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon purple">📈</div>
+   <h3 style="font-size:14px;margin-top:17px">Data Analytics</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Business intelligence, reporting and analytical problem-solving.
+   </p>
+   <span class="team-tag">Analytics</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon blue">🎨</div>
+   <h3 style="font-size:14px;margin-top:17px">Graphic Design</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Visual communication, branding, creative graphics and digital design.
+   </p>
+   <span class="team-tag">Creative Design</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon cyan">✨</div>
+   <h3 style="font-size:14px;margin-top:17px">UI/UX Design</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    User research, wireframing, prototyping and interface design.
+   </p>
+   <span class="team-tag">Design</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon orange">🔐</div>
+   <h3 style="font-size:14px;margin-top:17px">Cyber Security</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Security awareness, ethical practices and cybersecurity fundamentals.
+   </p>
+   <span class="team-tag">Security</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon purple">☁️</div>
+   <h3 style="font-size:14px;margin-top:17px">Cloud Computing</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Cloud platforms, deployment, infrastructure and cloud services.
+   </p>
+   <span class="team-tag">Cloud Technology</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon blue">📱</div>
+   <h3 style="font-size:14px;margin-top:17px">Mobile App Development</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Mobile application interfaces, development and testing.
+   </p>
+   <span class="team-tag">App Development</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon cyan">🌍</div>
+   <h3 style="font-size:14px;margin-top:17px">GIS & Geospatial Technology</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Geographic information systems, mapping and spatial data analysis.
+   </p>
+   <span class="team-tag">Geospatial</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon orange">📢</div>
+   <h3 style="font-size:14px;margin-top:17px">Digital Marketing</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    SEO, social media marketing, content strategy and digital campaigns.
+   </p>
+   <span class="team-tag">Marketing</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon purple">⚙️</div>
+   <h3 style="font-size:14px;margin-top:17px">Software Engineering</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Software development principles, testing and engineering practices.
+   </p>
+   <span class="team-tag">Engineering</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon blue">🗄️</div>
+   <h3 style="font-size:14px;margin-top:17px">Database Management</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Database design, SQL, data management and optimization.
+   </p>
+   <span class="team-tag">Database</span>
+  </div>
+
+  <div class="panel">
+   <div class="stat-icon cyan">🧪</div>
+   <h3 style="font-size:14px;margin-top:17px">Quality Assurance & Testing</h3>
+   <p style="font-size:10px;color:var(--muted);margin-top:9px;line-height:1.8">
+    Software testing, quality assurance and bug reporting.
+   </p>
+   <span class="team-tag">Software Testing</span>
+  </div>
+
+ </div>
+
+</section>
+
+
+
+<section class="page-section" id="courses">
+
+ <div class="welcome">
+  <div>
+   <h1>Learning & Courses</h1>
+   <p>Explore technical learning programs and professional development.</p>
+  </div>
+  <button class="primary-btn" onclick="notify('Course management selected')">
+   + Add Course
+  </button>
+ </div>
+
+ <div class="grid-three">
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">💻</div>
+    <div>
+     <h4>Frontend Development</h4>
+     <p>HTML, CSS, JavaScript, React</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">⚙️</div>
+    <div>
+     <h4>Backend Development</h4>
+     <p>Node.js, Express, APIs</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">🚀</div>
+    <div>
+     <h4>Full Stack Development</h4>
+     <p>MERN Stack, MongoDB, React</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">🤖</div>
+    <div>
+     <h4>Artificial Intelligence</h4>
+     <p>AI fundamentals and applications</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">🧠</div>
+    <div>
+     <h4>Machine Learning</h4>
+     <p>ML algorithms and model training</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">📊</div>
+    <div>
+     <h4>Data Science</h4>
+     <p>Python, data analysis, statistics</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">🎨</div>
+    <div>
+     <h4>Graphic Design</h4>
+     <p>Canva, visual communication</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">✨</div>
+    <div>
+     <h4>UI/UX Design</h4>
+     <p>Figma, wireframes, prototypes</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+  <div class="panel">
+   <div class="course">
+    <div class="course-icon">🌍</div>
+    <div>
+     <h4>GIS & Geospatial</h4>
+     <p>Mapping and spatial technology</p>
+    </div>
+   </div>
+   <span class="status active">Available</span>
+  </div>
+
+ </div>
+
+</section>
+
+
+
+<section class="page-section" id="instructors">
+
+ <div class="welcome">
+  <div>
+   <h1>Instructors & Leadership</h1>
+   <p>Meet the leadership and instructional team of GIST.</p>
+  </div>
+  <button class="primary-btn" onclick="notify('Instructor management selected')">
+   + Add Instructor
+  </button>
+ </div>
+
+ <div class="panel" style="margin-bottom:20px">
+  <div class="panel-header">
+   <div>
+    <h3>Program Leadership</h3>
+    <p>Management and program coordination</p>
+   </div>
+  </div>
+
+  <div class="grid-three">
+
+   <div class="team-card">
+    <div class="team-avatar blue">👨‍💼</div>
+    <h3>Sir Zaid Hussain Dahar</h3>
+    <div class="team-role">GIST Director & Head of Institute</div>
+    <p>Provides overall direction, leadership and strategic guidance to the internship program.</p>
+    <span class="team-tag">Leadership</span>
+   </div>
+
+   <div class="team-card">
+    <div class="team-avatar purple">👨‍🏫</div>
+    <h3>Miss Mahak Dev & Designer</h3>
+    <div class="team-role">Instructor / Mentor</div>
+    <p>Supports student learning, guidance and professional development.</p>
+    <span class="team-tag">Mentorship</span>
+   </div>
+
+   <div class="team-card">
+    <div class="team-avatar cyan">👩‍💻</div>
+    <h3>Muqadas Software Engineer</h3>
+    <div class="team-role">Program Assistant</div>
+    <p>Supports internship communication, student coordination and task management.</p>
+    <span class="team-tag">Supportor</span>
+   </div>
+
+  </div>
+ </div>
+
+ <div class="panel">
+  <div class="panel-header">
+   <div>
+    <h3>Technical Mentorship Domains</h3>
+    <p>Learning and technical support areas</p>
+   </div>
+  </div>
+
+  <div class="grid-three">
+
+   <div class="team-card">
+    <div class="team-avatar blue">💻</div>
+    <h3>Web Development Mentor</h3>
+    <div class="team-role">Frontend & Backend</div>
+    <p>Guidance in website development, APIs and modern programming tools.</p>
+   </div>
+
+   <div class="team-card">
+    <div class="team-avatar purple">🤖</div>
+    <h3>AI & Machine Learning Mentor</h3>
+    <div class="team-role">Artificial Intelligence</div>
+    <p>Guidance in AI concepts, machine learning and intelligent applications.</p>
+   </div>
+
+   <div class="team-card">
+    <div class="team-avatar cyan">📊</div>
+    <h3>Data Science Mentor</h3>
+    <div class="team-role">Data & Analytics</div>
+    <p>Guidance in data analysis, visualization and data-driven projects.</p>
+   </div>
+
+   <div class="team-card">
+    <div class="team-avatar orange">🎨</div>
+    <h3>Graphic Design Mentor</h3>
+    <div class="team-role">Creative Design</div>
+    <p>Guidance in visual design, branding and creative communication.</p>
+   </div>
+
+   <div class="team-card">
+    <div class="team-avatar purple">✨</div>
+    <h3>UI/UX Design Mentor</h3>
+    <div class="team-role">User Experience</div>
+    <p>Guidance in user research, interface design and prototyping.</p>
+   </div>
+
+   <div class="team-card">
+    <div class="team-avatar blue">🌍</div>
+    <h3>GIS & Geospatial Mentor</h3>
+    <div class="team-role">Geospatial Technology</div>
+    <p>Guidance in GIS tools, spatial analysis and mapping projects.</p>
+   </div>
+
+  </div>
+ </div>
+
+</section>
+<!-- TASKS -->
+
+<section class="page-section" id="tasks">
+
+ <div class="welcome">
+  <div>
+   <h1>Task Management</h1>
+   <p>Manage internship assignments and student tasks.</p>
+  </div>
+  <button class="primary-btn" onclick="notify('Task creation selected')">+ Create Task</button>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card">
+   <div class="stat-icon blue">📋</div>
+   <h2>35</h2>
+   <p>Total Tasks</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon cyan">✓</div>
+   <h2>18</h2>
+   <p>Published Tasks</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon purple">📥</div>
+   <h2>86</h2>
+   <p>Submissions Received</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon orange">⏳</div>
+   <h2>12</h2>
+   <p>Pending Reviews</p>
+  </div>
+ </div>
+
+ <div class="panel">
+  <div class="panel-header">
+   <div>
+    <h3>Available Tasks</h3>
+    <p>Internship assignments and learning activities</p>
+   </div>
+  </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>TASK</th>
+      <th>DOMAIN</th>
+      <th>DEADLINE</th>
+      <th>STATUS</th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td><strong>Task 1 - Portfolio Website</strong></td>
+      <td>Web Development</td>
+      <td>November 15, 2026</td>
+      <td><span class="status active">Published</span></td>
+     </tr>
+     <tr>
+      <td><strong>Task 2 - Text Classification System</strong></td>
+      <td>Artificial Intelligence</td>
+      <td>November 18, 2026</td>
+      <td><span class="status active">Published</span></td>
+     </tr>
+     <tr>
+      <td><strong>Task 3 - Data Analysis</strong></td>
+      <td>Data Science</td>
+      <td>November 20, 2026</td>
+      <td><span class="status pending">In Progress</span></td>
+     </tr>
+     <tr>
+      <td><strong>Task 4 - RAG Assistant</strong></td>
+      <td>Machine Learning / AI</td>
+      <td>November 25, 2026</td>
+      <td><span class="status pending">In Progress</span></td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </div>
+
+</section>
+
+
+
+<section class="page-section" id="submissions">
+
+ <div class="welcome">
+  <div>
+   <h1>Task Submissions</h1>
+   <p>Review student work and monitor submission progress.</p>
+  </div>
+  <button class="primary-btn" onclick="notify('Submission report selected')">Export Report</button>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card">
+   <div class="stat-icon blue">📥</div>
+   <h2>86</h2>
+   <p>Total Submissions</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon cyan">✓</div>
+   <h2>54</h2>
+   <p>Approved</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon purple">⏳</div>
+   <h2>20</h2>
+   <p>Under Review</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon orange">↻</div>
+   <h2>12</h2>
+   <p>Revision Required</p>
+  </div>
+ </div>
+
+ <div class="panel">
+  <div class="panel-header">
+   <div>
+    <h3>Recent Submissions</h3>
+    <p>Latest student task submissions</p>
+   </div>
+  </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>STUDENT</th>
+      <th>TASK</th>
+      <th>DOMAIN</th>
+      <th>SUBMISSION DATE</th>
+      <th>STATUS</th>
+      <th>ACTION</th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>Muhammad Ali</td>
+      <td>Portfolio Website</td>
+      <td>Web Development</td>
+      <td>Nov 05, 2026</td>
+      <td><span class="status active">Approved</span></td>
+      <td><button class="action-btn" onclick="notify('Submission selected')">👁</button></td>
+     </tr>
+     <tr>
+      <td>Fatima Ahmed</td>
+      <td>Text Classification</td>
+      <td>AI</td>
+      <td>Nov 06, 2026</td>
+      <td><span class="status pending">Under Review</span></td>
+      <td><button class="action-btn" onclick="notify('Submission selected')">👁</button></td>
+     </tr>
+     <tr>
+      <td>Sara Ahmed</td>
+      <td>Data Analysis</td>
+      <td>Data Science</td>
+      <td>Nov 07, 2026</td>
+      <td><span class="status completed">Revision</span></td>
+      <td><button class="action-btn" onclick="notify('Submission selected')">👁</button></td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </div>
+
+</section>
+
+
+
+
+<section class="page-section" id="certificates">
+
+ <div class="welcome">
+  <div>
+   <h1>Certificates Management</h1>
+   <p>Manage internship completion certificates.</p>
+  </div>
+  <button class="primary-btn" onclick="notify('Certificate creation selected')">+ Generate Certificate</button>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card">
+   <div class="stat-icon blue">🏆</div>
+   <h2>35</h2>
+   <p>Certificates Generated</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon cyan">✓</div>
+   <h2>28</h2>
+   <p>Issued Certificates</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon purple">⏳</div>
+   <h2>7</h2>
+   <p>Pending Certificates</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon orange">📄</div>
+   <h2>100%</h2>
+   <p>Digital Records</p>
+  </div>
+ </div>
+
+ <div class="panel">
+  <div class="panel-header">
+   <div>
+    <h3>Certificate Records</h3>
+    <p>Student completion and certificate status</p>
+   </div>
+  </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>STUDENT</th>
+      <th>INTERNSHIP DOMAIN</th>
+      <th>CERTIFICATE ID</th>
+      <th>STATUS</th>
+      <th>ACTION</th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>Muhammad Ali</td>
+      <td>Web Development</td>
+      <td>GIST-CERT-001</td>
+      <td><span class="status active">Issued</span></td>
+      <td><button class="action-btn" onclick="notify('Certificate preview selected')">👁</button></td>
+     </tr>
+     <tr>
+      <td>Fatima Ahmed</td>
+      <td>Artificial Intelligence</td>
+      <td>GIST-CERT-002</td>
+      <td><span class="status pending">Pending</span></td>
+      <td><button class="action-btn" onclick="notify('Certificate record selected')">👁</button></td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+ </div>
+
+</section>
+
+
+<!-- REPORTS -->
+
+<section class="page-section" id="reports">
+
+ <div class="welcome">
+  <div>
+   <h1>Reports & Analytics</h1>
+   <p>Monitor internship performance and program statistics.</p>
+  </div>
+  <button class="primary-btn" onclick="window.print()">Print Report</button>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card">
+   <div class="stat-icon blue">👥</div>
+   <h2>120</h2>
+   <p>Registered Students</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon cyan">📥</div>
+   <h2>86</h2>
+   <p>Task Submissions</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon purple">🏆</div>
+   <h2>35</h2>
+   <p>Completed Internships</p>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon orange">📊</div>
+   <h2>72%</h2>
+   <p>Overall Progress</p>
+  </div>
+ </div>
+
+ <div class="grid-two">
+
+  <div class="panel">
+   <div class="panel-header">
+    <div>
+     <h3>Program Performance</h3>
+     <p>Internship completion overview</p>
+    </div>
+   </div>
+
+   <div class="progress-item">
+    <div class="progress-info"><span>Web Development</span><strong>85%</strong></div>
+    <div class="progress-track"><div class="progress-fill" style="width:85%;background:#2563eb"></div></div>
+   </div>
+
+   <div class="progress-item">
+    <div class="progress-info"><span>Artificial Intelligence</span><strong>75%</strong></div>
+    <div class="progress-track"><div class="progress-fill" style="width:75%;background:#7c3aed"></div></div>
+   </div>
+
+   <div class="progress-item">
+    <div class="progress-info"><span>Data Science</span><strong>65%</strong></div>
+    <div class="progress-track"><div class="progress-fill" style="width:65%;background:#0891b2"></div></div>
+   </div>
+
+   <div class="progress-item">
+    <div class="progress-info"><span>Graphic Design</span><strong>55%</strong></div>
+    <div class="progress-track"><div class="progress-fill" style="width:55%;background:#ea580c"></div></div>
+   </div>
+
+  </div>
+
+  <div class="panel">
+   <div class="panel-header">
+    <div>
+     <h3>Report Summary</h3>
+     <p>Current program overview</p>
+    </div>
+   </div>
+
+   <div class="activity">
+    <div class="activity-icon">👥</div>
+    <div><strong>Student Registration</strong><p>120 registered students in the program.</p></div>
+   </div>
+
+   <div class="activity">
+    <div class="activity-icon">💼</div>
+    <div><strong>Internship Domains</strong><p>15 technical and creative domains available.</p></div>
+   </div>
+
+   <div class="activity">
+    <div class="activity-icon">📥</div>
+    <div><strong>Task Submissions</strong><p>86 submissions recorded in this demo dashboard.</p></div>
+   </div>
+
+   <div class="activity">
+    <div class="activity-icon">🏆</div>
+    <div><strong>Certificates</strong><p>35 completion certificates recorded.</p></div>
+   </div>
+
+  </div>
+
+ </div>
+
+</section>
+
+
+<section class="page-section" id="settings">
+
+ <div class="welcome">
+  <div>
+   <h1>Dashboard Settings</h1>
+   <p>Customize your dashboard preferences.</p>
+  </div>
+ </div>
+
+ <div class="grid-two">
+
+  <div class="panel">
+   <div class="panel-header">
+    <div>
+     <h3>General Settings</h3>
+     <p>Basic dashboard information</p>
+    </div>
+   </div>
+
+   <div class="form-group">
+    <label>Portal Name</label>
+    <input type="text" id="portalName" value="GIST Internship Program">
+   </div>
+
+   <div class="form-group">
+    <label>Administrator Name</label>
+    <input type="text" id="adminName" value="Administrator">
+   </div>
+
+   <div class="form-group">
+    <label>Contact Email</label>
+    <input type="email" id="adminEmail" value="admin@gist.edu.pk">
+   </div>
+
+   <button class="primary-btn" id="saveSettings">Save Settings</button>
+  </div>
+
+  <div class="panel">
+   <div class="panel-header">
+    <div>
+     <h3>Appearance</h3>
+     <p>Manage dashboard appearance</p>
+    </div>
+   </div>
+
+   <div class="progress-item">
+    <div class="progress-info">
+     <span>Dark Mode</span>
+     <strong id="themeStatus">Off</strong>
+    </div>
+    <button class="secondary-btn" id="settingsThemeToggle">Toggle Theme</button>
+   </div>
+
+   <div class="divider" style="height:1px;background:var(--border);margin:20px 0"></div>
+
+   <h4 style="font-size:12px;margin-bottom:10px">About This Portal</h4>
+   <p style="font-size:10px;color:var(--muted);line-height:1.8">
+    GIST Internship Administration Portal is a demonstration dashboard
+    designed to organize internship programs, student records, tasks,
+    submissions, instructors and certificates.
+   </p>
+  </div>
+
+ </div>
+
+</section>
+
+
+<footer class="footer">
+ GIST Internship Administration Portal
+ <br>
+ Professional Learning • Innovation • Technology
+ <br>
+ © 2026 GIST. Dashboard demonstration interface.
+</footer>
+
+</div>
+</main>
+</div>
+
+
+
+<div class="modal" id="studentModal">
+
+ <div class="modal-box">
+
+  <div class="modal-head">
+   <h3>Add New Student</h3>
+   <button class="close" onclick="closeModal('studentModal')">×</button>
+  </div>
+
+  <form id="studentForm">
+
+   <div class="form-group">
+    <label>Student Name</label>
+    <input type="text" id="newStudentName" placeholder="Enter student name" required>
+   </div>
+
+   <div class="form-group">
+    <label>Email Address</label>
+    <input type="email" id="newStudentEmail" placeholder="Enter email address" required>
+   </div>
+
+   <div class="form-group">
+    <label>Internship Domain</label>
+    <select id="newStudentDomain" required>
+     <option value="">Select Domain</option>
+     <option>Web Development</option>
+     <option>Artificial Intelligence</option>
+     <option>Machine Learning</option>
+     <option>Data Science</option>
+     <option>Data Analytics</option>
+     <option>Graphic Design</option>
+     <option>UI/UX Design</option>
+     <option>Cyber Security</option>
+     <option>Cloud Computing</option>
+     <option>Mobile App Development</option>
+     <option>GIS & Geospatial Technology</option>
+     <option>Digital Marketing</option>
+     <option>Software Engineering</option>
+     <option>Database Management</option>
+     <option>Quality Assurance & Testing</option>
+    </select>
+   </div>
+
+   <div class="form-group">
+    <label>Student Status</label>
+    <select id="newStudentStatus">
+     <option>Active</option>
+     <option>Pending</option>
+     <option>Completed</option>
+    </select>
+   </div>
+
+   <button type="submit" class="primary-btn form-submit">Add Student</button>
+
+  </form>
+
+ </div>
+
+</div>
+
+
+<!-- NOTIFICATION TOAST -->
+
+<div class="toast" id="toast"></div>
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+const navLinks = document.querySelectorAll(".nav-link");
+const pageSections = document.querySelectorAll(".page-section");
+const sidebar = document.getElementById("sidebar");
+const menuToggle = document.getElementById("menuToggle");
+const pageTitle = document.getElementById("pageTitle");
+const breadcrumb = document.getElementById("breadcrumb");
+
+const pageNames = {
+ dashboard: "Dashboard Overview",
+ students: "Student Management",
+ internships: "Internship Programs",
+ courses: "Learning & Courses",
+ instructors: "Instructors & Leadership",
+ tasks: "Task Management",
+ submissions: "Task Submissions",
+ certificates: "Certificates Management",
+ reports: "Reports & Analytics",
+ settings: "Dashboard Settings"
+};
+
+
+
+function showPage(pageId){
+
+ pageSections.forEach(section => {
+  section.classList.toggle("active", section.id === pageId);
+ });
+
+ navLinks.forEach(link => {
+  link.classList.toggle("active", link.dataset.page === pageId);
+ });
+
+ const title = pageNames[pageId] || "Dashboard";
+
+ pageTitle.textContent = title;
+ breadcrumb.textContent = title;
+
+ sidebar.classList.remove("open");
+
+ window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+ });
+
+}
+
+navLinks.forEach(link => {
+ link.addEventListener("click", () => {
+  showPage(link.dataset.page);
+ });
+});
+
+
+
+
+if(menuToggle){
+
+ menuToggle.addEventListener("click", event => {
+  event.stopPropagation();
+  sidebar.classList.toggle("open");
+ });
+
+}
+
+document.addEventListener("click", event => {
+
+ if(
+  window.innerWidth <= 800 &&
+  sidebar.classList.contains("open") &&
+  !sidebar.contains(event.target) &&
+  !menuToggle.contains(event.target)
+ ){
+  sidebar.classList.remove("open");
+ }
+
+});
+
+
+
+
+function notify(message){
+
+ const toast = document.getElementById("toast");
+
+ toast.textContent = message;
+ toast.classList.add("show");
+
+ clearTimeout(window.toastTimer);
+
+ window.toastTimer = setTimeout(() => {
+  toast.classList.remove("show");
+ }, 2800);
+
+}
+
+
+
+
+function openModal(modalId){
+
+ const modal = document.getElementById(modalId);
+
+ if(modal){
+  modal.classList.add("show");
+ }
+
+}
+
+function closeModal(modalId){
+
+ const modal = document.getElementById(modalId);
+
+ if(modal){
+  modal.classList.remove("show");
+ }
+
+}
+
+document.querySelectorAll(".modal").forEach(modal => {
+
+ modal.addEventListener("click", event => {
+
+  if(event.target === modal){
+   modal.classList.remove("show");
+  }
+
+ });
+
+});
+
+
+
+
+let students = [
+
+ {
+  id: 1,
+  name: "Muhammad Ali",
+  email: "ali@example.com",
+  domain: "Web Development",
+  status: "Active"
+ },
+
+ {
+  id: 2,
+  name: "Fatima Ahmed",
+  email: "fatima@example.com",
+  domain: "Artificial Intelligence",
+  status: "Pending"
+ },
+
+ {
+  id: 3,
+  name: "Sara Ahmed",
+  email: "sara@example.com",
+  domain: "Graphic Design",
+  status: "Completed"
+ }
+
+];
+
+
+
+
+function renderStudents(){
+
+ const table = document.getElementById("studentsTable");
+
+ const search = document.getElementById("studentSearch").value.toLowerCase();
+
+ const filter = document.getElementById("studentFilter").value;
+
+ const filteredStudents = students.filter(student => {
+
+  const matchesSearch =
+   student.name.toLowerCase().includes(search) ||
+   student.email.toLowerCase().includes(search);
+
+  const matchesFilter =
+   filter === "all" || student.status === filter;
+
+  return matchesSearch && matchesFilter;
+
+ });
+
+ table.innerHTML = "";
+
+ if(filteredStudents.length === 0){
+
+  table.innerHTML = `
+   <tr>
+    <td colspan="5" class="empty">No students found.</td>
+   </tr>
+  `;
+
+ }else{
+
+  filteredStudents.forEach(student => {
+
+   const initials = student.name
+    .split(" ")
+    .map(word => word[0])
+    .join("")
+    .slice(0,2)
+    .toUpperCase();
+
+   const statusClass = student.status.toLowerCase();
+
+   const row = document.createElement("tr");
+
+   row.innerHTML = `
+    <td>
+     <div class="user-cell">
+      <div class="user-avatar">${initials}</div>
+      <div>
+       <strong>${student.name}</strong>
+       <small>GIST-${String(student.id).padStart(3,"0")}</small>
+      </div>
+     </div>
+    </td>
+
+    <td>${student.domain}</td>
+    <td>${student.email}</td>
+
+    <td>
+     <span class="status ${statusClass}">
+      ${student.status}
+     </span>
+    </td>
+
+    <td>
+     <button class="action-btn" onclick="notify('Student: ${student.name}')">👁</button>
+     <button class="action-btn delete-btn" onclick="deleteStudent(${student.id})">✕</button>
+    </td>
+   `;
+
+   table.appendChild(row);
+
+  });
+
+ }
+
+ document.getElementById("studentCount").textContent = students.length;
+ document.getElementById("totalStudents").textContent = 120 + Math.max(0,students.length - 3);
+
+}
+
+
+
+
+document.getElementById("studentForm").addEventListener("submit", event => {
+
+ event.preventDefault();
+
+ const name = document.getElementById("newStudentName").value.trim();
+ const email = document.getElementById("newStudentEmail").value.trim();
+ const domain = document.getElementById("newStudentDomain").value;
+ const status = document.getElementById("newStudentStatus").value;
+
+ if(!name || !email || !domain){
+  notify("Please complete all required fields.");
+  return;
+ }
+
+ const emailExists = students.some(student => student.email.toLowerCase() === email.toLowerCase());
+
+ if(emailExists){
+  notify("This email is already registered.");
+  return;
+ }
+
+ students.push({
+
+  id: Date.now(),
+  name,
+  email,
+  domain,
+  status
+
+ });
+
+ renderStudents();
+
+ event.target.reset();
+
+ closeModal("studentModal");
+
+ notify("Student added successfully!");
+
+});
+
+
+
+
+function deleteStudent(studentId){
+
+ const confirmed = confirm("Are you sure you want to delete this student?");
+
+ if(!confirmed){
+  return;
+ }
+
+ students = students.filter(student => student.id !== studentId);
+
+ renderStudents();
+
+ notify("Student deleted successfully.");
+
+}
+
+
+
+document.getElementById("studentSearch").addEventListener("input", renderStudents);
+
+document.getElementById("studentFilter").addEventListener("change", renderStudents);
+
+
+
+
+function toggleTheme(){
+
+ document.body.classList.toggle("dark");
+
+ const isDark = document.body.classList.contains("dark");
+
+ document.getElementById("themeToggle").textContent = isDark ? "☀" : "☾";
+
+ document.getElementById("themeStatus").textContent = isDark ? "On" : "Off";
+
+}
+
+document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+
+document.getElementById("settingsThemeToggle").addEventListener("click", toggleTheme);
+
+
+// Save Settings
+
+document.getElementById("saveSettings").addEventListener("click", () => {
+
+ const portalName = document.getElementById("portalName").value.trim();
+ const adminName = document.getElementById("adminName").value.trim();
+ const adminEmail = document.getElementById("adminEmail").value.trim();
+
+ if(!portalName || !adminName || !adminEmail){
+  notify("Please complete all settings fields.");
+  return;
+ }
+
+ document.querySelector(".brand h2").textContent = portalName;
+
+ document.querySelector(".profile h4").textContent = adminName;
+
+ notify("Settings updated successfully!");
+
+});
+
+
+
+document.getElementById("notificationBtn").addEventListener("click", () => {
+
+ notify("You are all caught up! No new notifications.");
+
+});
+
+
+
+
+document.getElementById("chartFilter").addEventListener("change", event => {
+
+ notify("Showing demo activity for " + event.target.value);
+
+});
+
+
+
+
+renderStudents();
+
+</script>
+
+</body>
+</html>
